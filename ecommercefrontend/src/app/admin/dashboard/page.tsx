@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
@@ -26,12 +26,16 @@ const AdminDashboard = () => {
   }
 
 
-  // Check if admin is logged in
-  const adminToken = localStorage.getItem("adminToken");
-  if (!adminToken) {
-    router.push("/admin/login"); // Redirect to login if not authenticated
-    return null;
-  }
+  useEffect(() => {
+    // Check if admin is logged in on the client side
+    const adminToken = localStorage.getItem("adminToken");
+    if (!adminToken) {
+      router.push("/admin/login"); // Redirect to login if not authenticated
+    } else {
+      fetchProducts(); // Fetch products if authenticated
+    }
+  }, [router]);
+
 
   const fetchProducts = async () => {
     try {

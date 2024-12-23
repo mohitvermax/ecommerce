@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import SidebarFilter from '@/components/SidebarFilter';
 import ProductCard from '@/components/Product/ProductCard';
 import { ChevronRight } from 'lucide-react';
@@ -30,7 +30,8 @@ interface FilterSections {
   [key: string]: { label: string; count?: number; min?: number; max?: number | null }[];
 }
 
-const Collections: React.FC = () => {
+// Separate component for the main content that uses useSearchParams
+const CollectionsContent: React.FC = () => {
   const searchParams = useSearchParams();
   const category = searchParams.get('category') || 'all';
 
@@ -41,7 +42,6 @@ const Collections: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const [loading, setLoading] = useState<boolean>(true);
 
   const filterSections: FilterSections = {
@@ -69,7 +69,6 @@ const Collections: React.FC = () => {
 
   const fetchProducts = async () => {
     setLoading(true);
-
     try {
       const response = await fetch('http://localhost:5000/get-product', {
         method: 'GET',
@@ -96,7 +95,6 @@ const Collections: React.FC = () => {
   const applyFilters = () => {
     let filtered = [...products];
 
-    // Apply price filter
     if (selectedFilters.PRICE.length > 0) {
       filtered = filtered.filter((product) => {
         return selectedFilters.PRICE.some((priceRange) => {
@@ -104,14 +102,13 @@ const Collections: React.FC = () => {
           return (
             range &&
             product.price >= (range.min ?? 0) &&
-            //@ts-expect-error max can be null
+            //@ts-expect-error max is not null
             (range.max === null || product.price <= range.max)
           );
         });
       });
     }
 
-    // Apply rating filter
     if (selectedFilters.RATING.length > 0) {
       filtered = filtered.filter((product) => {
         return selectedFilters.RATING.some((ratingRange) => {
@@ -139,7 +136,6 @@ const Collections: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Hero Banner */}
       <div className="relative bg-rose-100 rounded-lg overflow-hidden mb-8">
         <div className="p-8 sm:p-12 text-center">
           <h1 className="text-4xl font-serif mb-4">Carnival Sale</h1>
@@ -156,21 +152,14 @@ const Collections: React.FC = () => {
         <span className="text-gray-600">{category.charAt(0).toUpperCase() + category.slice(1)}</span>
       </div>
 
-      {/* Filters and Products */}
       <div className="flex flex-col md:flex-row gap-8">
-        {/* Sidebar Filters */}
         <div className="md:hidden flex justify-between items-center bg-rose-700 text-white p-2">
           <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             <span className="font-medium">Filters</span>
           </button>
         </div>
 
-        {/* Sidebar Filter */}
-        <div
-          className={`${
-            isSidebarOpen ? 'block' : 'hidden'
-          } md:block md:w-1/4 `}
-        >
+        <div className={`${isSidebarOpen ? 'block' : 'hidden'} md:block md:w-1/4`}>
           <SidebarFilter
             filters={filterSections}
             onFilterChange={handleFilterChange}
@@ -178,7 +167,6 @@ const Collections: React.FC = () => {
           />
         </div>
 
-        {/* Products Grid */}
         <div className="flex-1">
           <div className="flex justify-between items-center mb-6">
             <p className="text-gray-600">{filteredProducts.length} Products</p>
@@ -210,6 +198,15 @@ const Collections: React.FC = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+// Main Collections component wrapped in Suspense
+const Collections: React.FC = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CollectionsContent />
+    </Suspense>
   );
 };
 
