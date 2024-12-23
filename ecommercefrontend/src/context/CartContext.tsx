@@ -51,7 +51,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       // Step 1: Fetch the cart items (product IDs and quantities)
       const cartResponse = await axios.post<{ cart: { productsInCart: CartItemsId[] } }>(
-        "http://localhost:5000/cart/get-cart",
+        "https://ecommerce-86ao.onrender.com//cart/get-cart",
         { userId }
       );
   
@@ -62,7 +62,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const productPromises = productsInCart.map(async (item) => {
 
         console.log(item._id)
-        const productResponse = await axios.get(`http://localhost:5000/product/${item._id}`);
+        const productResponse = await axios.get(`https://ecommerce-86ao.onrender.com//product/${item._id}`);
         return {
           ...productResponse.data.product,
           quantity: item.quantity, // Add quantity from cartItems
@@ -88,7 +88,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      await axios.post("http://localhost:5000/cart/addtocart", {
+      await axios.post("https://ecommerce-86ao.onrender.com//cart/addtocart", {
         userId,
         _id: product._id,
         quantity,
@@ -105,7 +105,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!userId) return;
 
     try {
-      await axios.put("http://localhost:5000/cart/update-quantity", {
+      await axios.put("https://ecommerce-86ao.onrender.com//cart/update-quantity", {
         userId,
         _id,
         productQty: quantity,
@@ -121,7 +121,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!userId) return;
 
     try {
-      await axios.post("http://localhost:5000/cart/delete-items", {
+      await axios.post("https://ecommerce-86ao.onrender.com//cart/delete-items", {
         userId,
         _id,
       });
@@ -137,7 +137,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!userId) return;
 
     try {
-      await axios.post("http://localhost:5000/cart/clear-cart", { userId });
+      await axios.post("https://ecommerce-86ao.onrender.com//cart/clear-cart", { userId });
       setCartItems([]); // Clear the local state
     } catch (error) {
       console.error("Error clearing cart:", error);

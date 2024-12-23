@@ -30,7 +30,7 @@ const SearchContent = () => {
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/get-product`);
+        const response = await axios.get(`https://ecommerce-86ao.onrender.com//get-product`);
         if (!query) {
           setProducts([]);
           return;

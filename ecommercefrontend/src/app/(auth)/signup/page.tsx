@@ -15,7 +15,7 @@ const SignUpPage: React.FC = () => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/auth/signup", {
+      const response = await axios.post("https://ecommerce-86ao.onrender.com//auth/signup", {
         name,
         email,
         password,

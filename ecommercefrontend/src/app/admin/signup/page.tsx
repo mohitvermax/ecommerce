@@ -17,7 +17,7 @@ const AdminSignup = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/admin/seller/signup", {
+      const response = await axios.post("https://ecommerce-86ao.onrender.com//admin/seller/signup", {
         name,
         emailId,
         password,
