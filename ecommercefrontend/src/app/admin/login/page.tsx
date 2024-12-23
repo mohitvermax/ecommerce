@@ -15,7 +15,7 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://ecommerce-86ao.onrender.com//admin/login", {
+      const response = await axios.post("https://ecommerce-86ao.onrender.com/admin/login", {
         sellerId,
         emailOrPhone,
         password,

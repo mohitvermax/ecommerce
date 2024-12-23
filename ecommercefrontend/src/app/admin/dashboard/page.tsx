@@ -39,7 +39,7 @@ const AdminDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("https://ecommerce-86ao.onrender.com//get-product");
+      const response = await axios.get("https://ecommerce-86ao.onrender.com/get-product");
       setProducts(response.data.products);
     } catch (error) {
       console.log(error);
@@ -54,7 +54,7 @@ const AdminDashboard = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://ecommerce-86ao.onrender.com//create-product", {
+      const response = await axios.post("https://ecommerce-86ao.onrender.com/create-product", {
         name: productName,
         price: productPrice,
         category: productCategory,

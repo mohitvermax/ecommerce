@@ -49,7 +49,7 @@ const OrdersPage: React.FC = () => {
 
     const fetchOrders = async () => {
       try {
-        const response = await fetch("https://ecommerce-86ao.onrender.com//find-my-order", {
+        const response = await fetch("https://ecommerce-86ao.onrender.com/find-my-order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

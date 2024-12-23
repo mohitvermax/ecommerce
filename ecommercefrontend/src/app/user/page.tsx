@@ -22,7 +22,7 @@ const UserPage: React.FC = () => {
 
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch(`https://ecommerce-86ao.onrender.com//get-user-byid?userId=${userId}`, {
+        const response = await fetch(`https://ecommerce-86ao.onrender.com/get-user-byid?userId=${userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

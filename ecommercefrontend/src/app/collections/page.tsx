@@ -70,7 +70,7 @@ const CollectionsContent: React.FC = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://ecommerce-86ao.onrender.com//get-product', {
+      const response = await fetch('https://ecommerce-86ao.onrender.com/get-product', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
